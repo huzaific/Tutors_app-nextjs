@@ -1,0 +1,43 @@
+$(document).ready(function(){
+    $(".navbar-toggler-icon").click(function () {
+        $(".click-menu-btn").toggleClass("change-btn");
+        $(".navbar-collapse").fadeToggle();
+    });
+
+    $('#datepicker1').datepicker({
+        format: 'yyyy-mm-dd'
+    });
+    $('#datepicker2').datepicker({
+        format: 'yyyy-mm-dd'
+    });
+
+    $('#datepicker3').datepicker({
+        format: 'yyyy-mm-dd'
+    });
+    $('#datepicker4').datepicker({
+        format: 'yyyy-mm-dd'
+    });
+
+    $(".tutoring-wrap .teacter-detail-wrap").click(function () {
+        $(this).parent().find(".selected").removeClass("selected");
+        $(this).addClass("selected");
+    });
+
+
+    $(".chat-with-teacher-wrap>li a").click(function () {
+        $(this).toggleClass("hide");
+        $(this).parent().find(".chat-dialogue-wrap").slideToggle();
+    });
+    
+
+    $(".extra-menu").click(function () { 
+        $(".before-login-sidebar-outer-wrap").addClass("open-siderbar");
+        // $("body").addClass("fixed");
+    });
+
+    $(".before-login-sidebar .close").click(function () { 
+        $(".before-login-sidebar-outer-wrap").removeClass("open-siderbar");
+        // $("body").removeClass("fixed");
+    });
+
+});
