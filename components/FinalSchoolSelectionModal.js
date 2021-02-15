@@ -10,7 +10,7 @@ export default function FinalSchoolSelectionModal({ universities , name , formik
         initialValues:{
             isdomestic:'true',
             degree:'학사',
-            university:{ id:universities[0].id },
+            university:universities.length > 0 ?{ id:universities[0].id }:null,
             major:'',
             country:'',
             universityName:''
@@ -77,6 +77,10 @@ export default function FinalSchoolSelectionModal({ universities , name , formik
      
         }
     })
+
+    const handleResetBtn = () => {
+        formik2.setFieldValue(name , null)
+    }
 
     // useEffect(() => {
 
@@ -167,7 +171,7 @@ export default function FinalSchoolSelectionModal({ universities , name , formik
                         </form>
                     </div>
                     <div class="modal-btn-wrap">
-                        <button type="button" class="general-btn white-gray-btn">초기화</button>
+                        <button onClick={handleResetBtn} type="button" class="general-btn white-gray-btn">초기화</button>
                         <button onClick={() => {
                             if(formik.isValid){
                                 formik.handleSubmit()

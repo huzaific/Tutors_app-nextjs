@@ -19,6 +19,15 @@ export default function SelectionModal({ id ,  category , formik , name , isSing
     },[currentCategory])
 
 
+    const handleResetBtn = (e) => {
+
+        e.preventDefault()
+        setCurrentCategory(category[0])
+        setCurrentSubCategory(category[0].subCategory[0])
+        formik.setFieldValue(name , [])
+
+    }
+
 
     const handleApplyBtn = (e) => {
         e.preventDefault()
@@ -110,7 +119,7 @@ export default function SelectionModal({ id ,  category , formik , name , isSing
                         </div>
                     </div>
                     <div class="modal-btn-wrap">
-                        <button type="button" class="general-btn white-bg">초기화</button>
+                        <button onClick={handleResetBtn} type="button" class="general-btn white-bg">초기화</button>
                         <button onClick={handleApplyBtn} type="button" class="general-btn">적용</button>
                     </div>
                 </div>
