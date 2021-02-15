@@ -12,6 +12,7 @@ export default function SelectionModal({ id ,  category , formik , name , isSing
 
     useEffect(() => {
 
+        
         setCurrentSubCategory(currentCategory.subCategory[0])
         console.log(currentCategory.subCategory[0])
 

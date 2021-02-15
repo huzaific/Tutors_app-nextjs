@@ -8,32 +8,39 @@ import { useRouter } from 'next/router'
 
 const Signup = ({ cities , schoolLevels , studentSkills , subjects }) => {
     const router = useRouter()
+    let cityCategory , schoolLevelsCategory
+    if(cities.length > 0){
 
-    const cityCategory = cities.map(city => {
-        return {
-            id:city.id,
-            name:city.name,
-            subCategory:city.areas.map(area => {
-                return {
-                    id:area.id,
-                    name:area.name,
-                }
-            })
-        }
-    })
+        cityCategory = cities.map(city => {
+            return {
+                id:city.id,
+                name:city.name,
+                subCategory:city.areas.map(area => {
+                    return {
+                        id:area.id,
+                        name:area.name,
+                    }
+                })
+            }
+        })
+    }
 
-    const schoolLevelsCategory = schoolLevels.map(level => {
-        return {
-            id:level.id,
-            name:level.level,
-            subCategory:level.school_grades.map(grade => {
-                return {
-                    id:grade.id,
-                    name:grade.grade
-                }
-            })
-        }
-    })
+    if(schoolLevels.length > 0){
+        schoolLevelsCategory = schoolLevels.map(level => {
+            return {
+                id:level.id,
+                name:level.level,
+                subCategory:level.school_grades.map(grade => {
+                    return {
+                        id:grade.id,
+                        name:grade.grade
+                    }
+                })
+            }
+        })
+    }
+  
+
 
     const handleTutoringareasDel = (e , id) => {
 
@@ -69,7 +76,7 @@ const Signup = ({ cities , schoolLevels , studentSkills , subjects }) => {
             available_day_time_for_tutoring:'',
             budget:'',
             comment:'',
-            student_skill:{ id:studentSkills[0].id },
+            student_skill:studentSkills.length > 0 ? { id:studentSkills[0].id } : null,
             subjects:[],
             desired_area_for_direct_tutorings:[],
             residence_area:[],
@@ -299,7 +306,11 @@ const Signup = ({ cities , schoolLevels , studentSkills , subjects }) => {
                             </div>
                             <div class="form-group modal-popup-wrap">
                                 <label for="">직접 과외 희망 지역을 선택해주세요<span>(중복선택 가능)</span></label>
-                                <a href="#" class="modal-popup" data-toggle="modal" data-target="#region-selection-modal">
+                                <a href="#" class="modal-popup" data-toggle="modal" data-target="#region-selection-modal" onClick={() => {
+                                    if(cities.length <= 0){
+                                        toast.info("No cities available")
+                                    }
+                                }}>
                                     <span>지역 선택</span><span>&plus;</span>
                                 </a>
                                 <ul class="search-select-option black-bg">
@@ -315,7 +326,11 @@ const Signup = ({ cities , schoolLevels , studentSkills , subjects }) => {
                             </div>
                             <div class="form-group modal-popup-wrap">
                                 <label for="">학생의 거주 지역을 선택해주세요</label>
-                                <a href="#" class="modal-popup" data-toggle="modal" data-target="#residence-selection-modal">
+                                <a href="#" class="modal-popup" data-toggle="modal" data-target="#residence-selection-modal" onClick={() => {
+                                    if(cities.length <= 0){
+                                        toast.info("No cities available")
+                                    }
+                                }}>
                                     <span>지역 선택</span><span>&plus;</span>
                                 </a>
                                 <ul class="search-select-option black-bg">
@@ -329,7 +344,11 @@ const Signup = ({ cities , schoolLevels , studentSkills , subjects }) => {
                             </div>
                             <div class="form-group modal-popup-wrap">
                                 <label for="">과외 받을 학생의 교과를 선택해주세요</label>
-                                <a href="#" class="modal-popup" data-toggle="modal" data-target="#course-selection-modal">
+                                <a href="#" class="modal-popup" data-toggle="modal" data-target="#course-selection-modal" onClick={() => {
+                                    if(schoolLevels.length <= 0){
+                                        toast.info("No cities available")
+                                    }
+                                }}>
                                     <span>교과 선택</span><span>&plus;</span>
                                 </a>
                                 <ul class="search-select-option black-bg">
@@ -443,9 +462,23 @@ const Signup = ({ cities , schoolLevels , studentSkills , subjects }) => {
                 </div>
             </section>
         </div>
-        <SelectionModal id="region-selection-modal" name="desired_area_for_direct_tutorings" formik={formik} handleDel={handleTutoringareasDel} category={cityCategory} />
+
+        {
+      cities.length > 0 ?
+      (
+          <>
+            <SelectionModal id="region-selection-modal" name="desired_area_for_direct_tutorings" formik={formik} handleDel={handleTutoringareasDel} category={cityCategory} />
         <SelectionModal id="residence-selection-modal" name="residence_area" formik={formik} handleDel={handleResidenceareaDel} category={cityCategory} isSingle={true} />
-        <SelectionModal id="course-selection-modal" name="school_types" formik={formik} handleDel={handleSchoolTypeDel} category={schoolLevelsCategory}  />
+          </>
+      ):null
+  }
+  {
+      schoolLevels.length > 0 ?
+      (  <SelectionModal id="course-selection-modal" name="school_types" formik={formik} handleDel={handleSchoolTypeDel} category={schoolLevelsCategory}  />):null
+  }
+
+      
+       
         </>
        
      );
